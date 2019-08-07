@@ -15,7 +15,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig {
     private ApiInfo apiInfo() {
-        return new ApiInfo("JavaSpringPractice", "Person Services", "", "", null, "", "", Collections.emptyList());
+        return new ApiInfo("JavaSpringPractice", "Person services", "", "", null, "", "", Collections.emptyList());
     }
 
     @Bean

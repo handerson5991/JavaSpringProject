@@ -1,0 +1,142 @@
+[{
+		"id": "1",
+		"first_name": "Hunter",
+		"last_name": "Anderson",
+		"age": "23",
+		"pets": [{
+				"animal": "cat",
+				"breed": "siamese",
+				"pet_name": "Zodi",
+				"age": "1"
+			},
+			{
+				"animal": "cat",
+				"breed": "tabby",
+				"pet_name": "Jack",
+				"age": "1"
+			}
+		],
+		"cars": [{
+			"year": "2018",
+			"make": "Toyota",
+			"model": "RAV4",
+			"color": "black"
+		}]
+	},
+
+	{
+		"id": "2",
+		"first_name": "Jim",
+		"last_name": "Jimson",
+		"age": "23",
+		"pets": [{
+			"animal": "cat",
+			"breed": "bengal",
+			"pet_name": "Tiger",
+			"age": "2"
+		}],
+		"cars": [{
+			"year": "2011",
+			"make": "Toyota",
+			"model": "RAV4",
+			"color": "red"
+		}]
+	},
+
+	{
+		"id": "3",
+		"first_name": "Bob",
+		"last_name": "Bobson",
+		"age": "29",
+		"pets": [{
+				"animal": "cat",
+				"breed": "tabby",
+				"pet_name": "Kitty",
+				"age": "1"
+			},
+			{
+				"animal": "dog",
+				"breed": "german shepherd",
+				"pet_name": "Rex",
+				"age": "3"
+			}
+		],
+		"cars": [{
+			"year": "2001",
+			"make": "Honda",
+			"model": "Fit",
+			"color": "white"
+		}]
+	},
+
+	{
+		"id": "4",
+		"first_name": "Tom",
+		"last_name": "Cruise",
+		"age": "45",
+		"pets": [{
+				"animal": "parrot",
+				"breed": "macaw",
+				"pet_name": "Perry",
+				"age": "4"
+			},
+			{
+				"animal": "snake",
+				"breed": "ball python",
+				"pet_name": "Percy",
+				"age": "1"
+			}
+		],
+		"cars": [{
+			"year": "2017",
+			"make": "Tesla",
+			"model": "Model S",
+			"color": "black"
+		}]
+	},
+
+	{
+		"id": "4",
+		"first_name": "Brad",
+		"last_name": "Pitt",
+		"age": 55,
+		"pets": [{}],
+		"cars": [{
+			"year": "1962",
+			"make": "Chervrolet",
+			"model": "Impala",
+			"color": "grey"
+		},
+		{
+			"year": "2018",
+			"make": "Tesla",
+			"model": "Roadster",
+			"color": "red"
+		},
+		{
+			"year": "2015",
+			"make": "Jeep",
+			"model": "Grand Cherokee",
+			"color": "white"
+		}]
+	},
+
+	{
+		"id": "5",
+		"first_name": "Brenden",
+		"last_name": "Urie",
+		"age": "30",
+		"pets": [{
+			"animal": "dog",
+			"breed": "beagle",
+			"pet_name": "Spot",
+			"age": "4"
+		}],
+		"cars": [{
+			"year": "2015",
+			"make": "Toyota",
+			"model": "Prius",
+			"color": "white"
+		}]
+	}
+]
