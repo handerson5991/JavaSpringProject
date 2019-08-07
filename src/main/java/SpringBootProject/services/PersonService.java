@@ -1,11 +1,10 @@
 package SpringBootProject.services;
 
-import jdk.nashorn.internal.parser.JSONParser;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -40,24 +39,23 @@ public class PersonService {
     }
 
     public JSONArray parseJSONArray(String text) {
-        org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
-        JSONArray jsonArray = null;
+        JSONParser jsonParser = new JSONParser();
         try {
             if (parser.parse(text) instanceof JSONArray) {
-                jsonArray = (JSONArray) parser.parse(text);
+                return (JSONArray) parser.parse(text);
             }
-        } catch (org.json.simple.parser.ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-        return jsonArray;
+        return null;
     }
 
     public JSONArray parseJsonArrayAndGetMatches(String text, String key, String value) {
-        JSONParser parser = new JSONParser(text, /*???????????????*/,false);
+        JSONParser parser = new JSONParser();
         JSONArray returnArray = new JSONArray();
         JSONObject jsonObject = null;
         try {
-            if (parser.parse() instanceof JSONArray) {
+            if (parser.parse(text) instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) parser.parse(text);
 
                 for (Object obj : jsonArray) {
