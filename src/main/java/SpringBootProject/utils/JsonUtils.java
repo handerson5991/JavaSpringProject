@@ -21,6 +21,19 @@ public class JsonUtils {
         return null;
     }
 
+    public JSONObject parseJSONObject(String text) {
+        JSONParser parser = new JSONParser();
+        JSONObject json = null;
+        try {
+            if (parser.parse(text) instanceof JSONObject)
+                json = (JSONObject) parser.parse(text);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
     public JSONArray parseJsonArrayAndGetMatches(String text, String key, String value) {
         JSONParser parser = new JSONParser();
         JSONArray returnArray = new JSONArray();
@@ -51,7 +64,7 @@ public class JsonUtils {
     }
 
     public String parseJSONArrayAndGetValue(String text, String key, String value) {
-        org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+        JSONParser parser = new JSONParser();
         try {
             if (parser.parse(text) instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) parser.parse(text);
@@ -74,6 +87,23 @@ public class JsonUtils {
         }
 
         return "Could not find value";
+    }
+
+    public JSONObject parseJSONObjectAndRemoveKey(JSONObject jsonObject, String key, String value) {
+        for (Object k : jsonObject.keySet()) {
+            if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value)) {
+                jsonObject.remove(key);
+                return jsonObject;
+            } else if (jsonObject.get(k) instanceof JSONArray) {
+                JSONArray innerArray = jsonObject.get(k);
+                JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
+                innerJson.remove(key);
+                innerArray = updateJSONArray(innerArray, innerJson, key, value);
+                jsonObject.put(k, innerArray);
+                return jsonObject;
+            }
+        }
+        return null;
     }
 
     public JSONObject parseJsonArrayAndGetJsonObject(String text, String key, String value) {
@@ -99,7 +129,11 @@ public class JsonUtils {
         return jsonObject;
     }
 
-    public JSONArray updateJSONArray(JSONArray jsonArray, JSONObject json, String keyName, String value){
+    public String parseNestedJSON(String outerKey, String innerKey, String JSONString) {
+        return parseJSONObject(parseJSONObject(JSONString).get(outerKey).toString()).get(innerKey).toString();
+    }
+
+    public JSONArray updateJSONArray(JSONArray jsonArray, JSONObject json, String keyName, String value) {
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject tempJSON = (JSONObject) jsonArray.get(i);
             if (tempJSON.get(keyName).toString().equalsIgnoreCase(value)) {

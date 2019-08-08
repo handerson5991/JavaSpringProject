@@ -34,11 +34,51 @@ public class PersonService {
         JSONArray pets = (JSONArray) personJson.get("pets");
         String oldPets = pets.toString();
         JSONObject petJson = jsonUtils.parseJsonArrayAndGetJsonObject(pets.toString(), "pet_name", petName);
-
         petJson.put(attribute, value);
         pets = jsonUtils.updateJSONArray(pets, petJson, "pet_name", petName);
         personJson.put("pets", pets);
         fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "pets", oldPets).toJSONString());
         return Search("id", id);
+    }
+
+    @PostMapping("/api/add")
+    public JSONArray addAttribute(String attribute, String value, String id) {
+        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
+        personJson.put(attribute, value);
+        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "id", id).toJSONString());
+        //ResponseEntity.ok?
+        return Search("id", id);
+    }
+
+    @PostMapping("/api/add")
+    public JSONArray addPerson(String id, String firstName, String lastName, String age, JSONArray attributes) {
+        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+        JSONObject newPerson = new JSONObject();
+        newPerson.put("id", id);
+        newPerson.put("first_name", firstName);
+        newPerson.put("last_name", lastName);
+        newPerson.put("age", age);
+        attributes.forEach(attribute -> newPerson.put(attribute));
+        personList.add(newPerson);
+        fileUtils.writeToFile(personDatabase, personList.toJSONString());
+        return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+    }
+
+    @DeleteMapping("/api/remove")
+    public JSONArray removePerson(String firstName) {
+        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "first_name", firstName);
+        personList.remove(personJson);
+        fileUtils.writeToFile(personDatabase, personList.toJSONString());
+        return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+    }
+
+    public JSONArray removeAttribute(String attribute, String value, String id) {
+        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
+        JSONObject updatedPersonJson = jsonUtils.parseJSONObjectAndRemoveKey(personJson, attribute, value);
+        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, updatedPersonJson, "id", id).toJSONString());
+        return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
     }
 }
