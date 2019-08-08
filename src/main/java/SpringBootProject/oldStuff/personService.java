@@ -26,10 +26,6 @@
 //        Base.writeToFile(personDatabase, Base.updateJSONArray(personList, personJson, "pets", oldPets).toString());
 //    }
 //
-//    public String searchForAttribute(String attribute, String value) {
-//        return Base.parseJsonArrayAndGetMatches(Base.parseJSONArray(Base.readFromFile(personDatabase)).toString(), attribute, value).toString();
-//    }
-//
 //    public void addAttribute(String attribute, String value, String id) {
 //        JSONArray personList = Base.parseJSONArray(Base.readFromFile(personDatabase));
 //        JSONObject personJson = Base.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
@@ -110,4 +106,8 @@
 //    public int howManInDB() {
 //        return Base.parseJSONArray(Base.readFromFile(personDatabase)).size();
 //    }
+////
+////    public String searchForAttribute(String attribute, String value) {
+////        return Base.parseJsonArrayAndGetMatches(Base.parseJSONArray(Base.readFromFile(personDatabase)).toString(), attribute, value).toString();
+////    }
 //}
