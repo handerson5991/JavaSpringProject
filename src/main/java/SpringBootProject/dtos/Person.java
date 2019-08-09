@@ -23,8 +23,7 @@ public class Person {
     @ApiModelProperty(hidden = true)
     List<Car> cars;
 
-    public Person(int id, String first_name, String last_name, String age, List<Pet> pets, List<Car> cars) {
-        this.id = id;
+    public Person(String first_name, String last_name, String age, List<Pet> pets, List<Car> cars) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.age = age;
@@ -32,7 +31,7 @@ public class Person {
         this.cars = cars;
     }
 
-    public int getid(){
-        return this.id;
+    public void setId(int id) {
+        this.id = id;
     }
 }

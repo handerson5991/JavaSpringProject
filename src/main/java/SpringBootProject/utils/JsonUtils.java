@@ -106,6 +106,22 @@ public class JsonUtils {
         return null;
     }
 
+    public JSONObject parseJSONObjectAndUpdateKey(JSONObject personJson, String key, String value) {
+        for (Object k : jsonObject.keySet()) {
+            if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value)) {
+                jsonObject.put(key, value);
+            } else if (jsonObject.get(k) instanceof JSONArray) {
+                JSONArray innerArray = (JSONArray) jsonObject.get(k);
+                JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
+                innerJson.put(key, value);
+                innerArray = updateJSONArray(innerArray, innerJson, key, value);
+                jsonObject.put(k, innerArray);
+                return jsonObject;
+            }
+        }
+        return null;
+    }
+
     public JSONObject parseJsonArrayAndGetJsonObject(String text, String key, String value) {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;

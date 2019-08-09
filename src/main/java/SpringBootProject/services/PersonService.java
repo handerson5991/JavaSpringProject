@@ -37,54 +37,81 @@ public class PersonService {
         return jsonUtils.parseJsonArrayAndGetMatches(jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase)).toString(), attribute, value);
     }
 
-    @GetMapping("/api/test")
-    public void test() {
-        ObjectMapper mapper = new ObjectMapper();
-        Pet pet = new Pet("dog", "dog", "dog", "2");
-        List<Pet> pets = new ArrayList<>();
-        pets.add(pet);
-        Person person = new Person(1, "bob", "bobson", "2", pets, new ArrayList<>());
-        try {
-            System.out.println(mapper.writeValueAsString(person));
-        } catch (IOException ie) {
-            ie.printStackTrace();
-        }
-    }
-
     @PutMapping("/api/update")
-    public JSONArray updatePetAttributes(String petName, String attribute, String value, String id) {
+    public JSONArray updateAttribute(String attribute, String value, int id) {
         JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
-        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
-        JSONArray pets = (JSONArray) personJson.get("pets");
-        String oldPets = pets.toString();
-        JSONObject petJson = jsonUtils.parseJsonArrayAndGetJsonObject(pets.toString(), "pet_name", petName);
-        petJson.put(attribute, value);
-        pets = jsonUtils.updateJSONArray(pets, petJson, "pet_name", petName);
-        personJson.put("pets", pets);
-        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "pets", oldPets).toJSONString());
-        return Search("id", id);
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", Integer.toString(id));
+        JSONObject updatedPersonJson = jsonUtils.parseJSONObjectAndUpdateKey(personJson, attribute, value);
+        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, updatedPersonJson, "id", Integer.toString(id)).toJSONString());
+        return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+//        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+//        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
+//        JSONArray pets = (JSONArray) personJson.get("pets");
+//        String oldPets = pets.toString();
+//        JSONObject petJson = jsonUtils.parseJsonArrayAndGetJsonObject(pets.toString(), "pet_name", petName);
+//        petJson.put(attribute, value);
+//        pets = jsonUtils.updateJSONArray(pets, petJson, "pet_name", petName);
+//        personJson.put("pets", pets);
+//        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "pets", oldPets).toJSONString());
+//        return Search("id", id);
     }
 
     @PostMapping("/api/add")
-    public JSONArray addAttribute(String attribute, String value, String id) {
+    public JSONArray addAttribute(String attribute, String value, int id) {
         JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
-        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", Integer.toString(id));
         personJson.put(attribute, value);
-        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "id", id).toJSONString());
+        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "id", Integer.toString(id)).toJSONString());
         //ResponseEntity.ok?
-        return Search("id", id);
+        return Search("id", Integer.toString(id));
     }
 
     @PostMapping("/api/add")
-    public JSONArray addPerson(String firstName, String lastName, String age, List<Pet> pets, List<Car> cars) {
+    public JSONArray addPerson(Person person) {
         try {
             JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
             ObjectMapper mapper = new ObjectMapper();
-            Person newPerson = new Person(personList.size() + 1, firstName, lastName, age, new ArrayList<>(), new ArrayList<>());
+            person.setId(personList.size() + 1);
             //fix ioException
-            personList.add(mapper.writeValueAsString(newPerson));
+            personList.add(mapper.writeValueAsString(person));
             fileUtils.writeToFile(personDatabase, personList.toJSONString());
             return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+        } catch (JsonProcessingException je) {
+            je.printStackTrace();
+        }
+        return null;
+    }
+
+    @PostMapping("/api/add")
+    public JSONArray addPet(Pet pet, int id) {
+        try {
+            JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+            JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", Integer.toString(id));
+            JSONArray petList = personList.get("pets");
+            ObjectMapper mapper = new ObjectMapper();
+            //fix ioException
+            petList.add(mapper.writeValueAsString(pet));
+            personJson.put("pets", petList);
+            fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "id", Integer.toString(id)).toJSONString());
+            return Search("id", Integer.toString(id));
+        } catch (JsonProcessingException je) {
+            je.printStackTrace();
+        }
+        return null;
+    }
+
+    @PostMapping("/api/add")
+    public JSONArray addCar(Car car, int id) {
+        try {
+            JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
+            JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", Integer.toString(id));
+            JSONArray carList = personList.get("cars");
+            ObjectMapper mapper = new ObjectMapper();
+            //fix ioException
+            petList.add(mapper.writeValueAsString(car));
+            personJson.put("pets", carList);
+            fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "id", Integer.toString(id)).toJSONString());
+            return Search("id", Integer.toString(id));
         } catch (JsonProcessingException je) {
             je.printStackTrace();
         }
@@ -100,11 +127,11 @@ public class PersonService {
         return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
     }
 
-    public JSONArray removeAttribute(String attribute, String value, String id) {
+    public JSONArray removeAttribute(String attribute, String value, int id) {
         JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
-        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
+        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", Integer.toString(id));
         JSONObject updatedPersonJson = jsonUtils.parseJSONObjectAndRemoveKey(personJson, attribute, value);
-        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, updatedPersonJson, "id", id).toJSONString());
+        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, updatedPersonJson, "id", Integer.toString(id)).toJSONString());
         return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
     }
 }
