@@ -6,6 +6,7 @@ import SpringBootProject.dtos.Pet;
 import SpringBootProject.services.PersonService;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,43 +18,43 @@ public class PersonController {
     private PersonService personService;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public JSONArray Search(@RequestParam String attribute, @RequestParam String value) {
-        return personService.Search(attribute, value);
+    public ResponseEntity<?> Search(@RequestParam String attribute, @RequestParam String value) {
+        return ResponseEntity.ok(personService.Search(attribute, value));
     }
 
     @RequestMapping(value = "/update/attribute", method = RequestMethod.PUT)
-    public JSONArray updateAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
-        return personService.updateAttribute(attribute, value, id);
+    public ResponseEntity<?> updateAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
+        return ResponseEntity.ok(personService.updateAttribute(attribute, value, id));
     }
 
     @RequestMapping(value = "/update/addAtribute", method = RequestMethod.POST)
-    public JSONArray addAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
-        return personService.addAttribute(attribute, value, id);
+    public ResponseEntity<?> addAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
+        return ResponseEntity.ok(personService.addAttribute(attribute, value, id));
     }
 
     @RequestMapping(value = "/update/addPerson", method = RequestMethod.POST)
-    public JSONArray addPerson(@RequestParam Person person) {
-        return personService.addPerson(person);
+    public ResponseEntity<?> addPerson(@RequestParam Person person) {
+        return ResponseEntity.ok(personService.addPerson(person));
     }
 
     @RequestMapping(value = "/update/addPet", method = RequestMethod.POST)
-    public JSONArray addPet(@RequestParam Pet pet, @RequestParam int id) {
-        return personService.addPet(pet, id);
+    public ResponseEntity<?> addPet(@RequestParam Pet pet, @RequestParam int id) {
+        return ResponseEntity.ok(personService.addPet(pet, id));
     }
 
     @RequestMapping(value = "/update/addCar", method = RequestMethod.POST)
-    public JSONArray addCar(@RequestParam Car car, @RequestParam int id) {
-        return personService.addCar(car, id);
+    public ResponseEntity<?> addCar(@RequestParam Car car, @RequestParam int id) {
+        return ResponseEntity.ok(personService.addCar(car, id));
     }
 
     @RequestMapping(value = "/update/removePerson", method = RequestMethod.DELETE)
-    public JSONArray removePerson(@RequestParam String firstName) {
-        return personService.removePerson(firstName);
+    public ResponseEntity<?> removePerson(@RequestParam String firstName) {
+        return ResponseEntity.ok(personService.removePerson(firstName));
     }
 
     @RequestMapping(value = "/update/removeAtribute", method = RequestMethod.DELETE)
-    public JSONArray removeAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
-        return personService.removeAttribute(attribute, value, id);
+    public ResponseEntity<?> removeAttribute(@RequestParam String attribute, @RequestParam String value, @RequestParam int id) {
+        return ResponseEntity.ok(personService.removeAttribute(attribute, value, id));
     }
 
 }
