@@ -95,7 +95,7 @@ public class JsonUtils {
                 jsonObject.remove(key);
                 return jsonObject;
             } else if (jsonObject.get(k) instanceof JSONArray) {
-                JSONArray innerArray = jsonObject.get(k);
+                JSONArray innerArray = (JSONArray) jsonObject.get(k);
                 JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
                 innerJson.remove(key);
                 innerArray = updateJSONArray(innerArray, innerJson, key, value);

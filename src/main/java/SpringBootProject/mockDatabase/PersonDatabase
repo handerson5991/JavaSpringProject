@@ -1,5 +1,5 @@
 [{
-		"id": "1",
+		"id": 1,
 		"first_name": "Hunter",
 		"last_name": "Anderson",
 		"age": "23",
@@ -25,7 +25,7 @@
 	},
 
 	{
-		"id": "2",
+		"id": 2,
 		"first_name": "Jim",
 		"last_name": "Jimson",
 		"age": "23",
@@ -44,7 +44,7 @@
 	},
 
 	{
-		"id": "3",
+		"id": 3,
 		"first_name": "Bob",
 		"last_name": "Bobson",
 		"age": "29",
@@ -70,7 +70,7 @@
 	},
 
 	{
-		"id": "4",
+		"id": 4,
 		"first_name": "Tom",
 		"last_name": "Cruise",
 		"age": "45",
@@ -96,7 +96,7 @@
 	},
 
 	{
-		"id": "4",
+		"id": 5,
 		"first_name": "Brad",
 		"last_name": "Pitt",
 		"age": 55,
@@ -122,7 +122,7 @@
 	},
 
 	{
-		"id": "5",
+		"id": 6,
 		"first_name": "Brenden",
 		"last_name": "Urie",
 		"age": "30",
