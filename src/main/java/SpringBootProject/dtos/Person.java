@@ -1,6 +1,7 @@
 package SpringBootProject.dtos;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,19 +9,15 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
     @ApiModelProperty(hidden = true)
     int id;
-    @ApiModelProperty(hidden = true)
     String first_name;
-    @ApiModelProperty(hidden = true)
     String last_name;
-    @ApiModelProperty(hidden = true)
     String age;
-    @ApiModelProperty(hidden = true)
     List<Pet> pets;
-    @ApiModelProperty(hidden = true)
     List<Car> cars;
 
     public Person(String first_name, String last_name, String age, List<Pet> pets, List<Car> cars) {

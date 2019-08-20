@@ -90,23 +90,25 @@ public class JsonUtils {
     }
 
     public JSONObject parseJSONObjectAndRemoveKey(JSONObject jsonObject, String key, String value) {
-        for (Object k : jsonObject.keySet()) {
-            if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value)) {
-                jsonObject.remove(key);
-                return jsonObject;
-            } else if (jsonObject.get(k) instanceof JSONArray) {
-                JSONArray innerArray = (JSONArray) jsonObject.get(k);
-                JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
-                innerJson.remove(key);
-                innerArray = updateJSONArray(innerArray, innerJson, key, value);
-                jsonObject.put(k, innerArray);
-                return jsonObject;
+        if (jsonObject.keySet().contains(key)) {
+            jsonObject.remove(key);
+            return jsonObject;
+        } else {
+            for (Object k : jsonObject.keySet()) {
+                if (jsonObject.get(k) instanceof JSONArray) {
+                    JSONArray innerArray = (JSONArray) jsonObject.get(k);
+                    JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
+                    innerJson.remove(key);
+                    innerArray = updateJSONArray(innerArray, innerJson, key, value);
+                    jsonObject.put(k, innerArray);
+                    return jsonObject;
+                }
             }
         }
         return null;
     }
 
-    public JSONObject parseJSONObjectAndUpdateKey(JSONObject personJson, String key, String value) {
+    public JSONObject parseJSONObjectAndUpdateKey(JSONObject jsonObject, String key, String value) {
         for (Object k : jsonObject.keySet()) {
             if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value)) {
                 jsonObject.put(key, value);

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.lang.annotation.Target;
 import java.util.List;
 
 @RestController
@@ -32,18 +34,18 @@ public class PersonController {
         return ResponseEntity.ok(personService.addAttribute(attribute, value, id));
     }
 
-    @RequestMapping(value = "/update/addPerson", method = RequestMethod.POST)
-    public ResponseEntity<?> addPerson(@RequestParam Person person) {
+    @PostMapping("update/addPerson")
+    public ResponseEntity<?> addPerson(@RequestBody @Valid Person person) {
         return ResponseEntity.ok(personService.addPerson(person));
     }
 
     @RequestMapping(value = "/update/addPet", method = RequestMethod.POST)
-    public ResponseEntity<?> addPet(@RequestParam Pet pet, @RequestParam int id) {
+    public ResponseEntity<?> addPet(@RequestBody Pet pet, @RequestParam int id) {
         return ResponseEntity.ok(personService.addPet(pet, id));
     }
 
     @RequestMapping(value = "/update/addCar", method = RequestMethod.POST)
-    public ResponseEntity<?> addCar(@RequestParam Car car, @RequestParam int id) {
+    public ResponseEntity<?> addCar(@RequestBody Car car, @RequestParam int id) {
         return ResponseEntity.ok(personService.addCar(car, id));
     }
 
