@@ -45,16 +45,6 @@ public class PersonService {
         JSONObject updatedPersonJson = jsonUtils.parseJSONObjectAndUpdateKey(personJson, attribute, value);
         fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, updatedPersonJson, "id", Integer.toString(id)).toJSONString());
         return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
-//        JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
-//        JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "id", id);
-//        JSONArray pets = (JSONArray) personJson.get("pets");
-//        String oldPets = pets.toString();
-//        JSONObject petJson = jsonUtils.parseJsonArrayAndGetJsonObject(pets.toString(), "pet_name", petName);
-//        petJson.put(attribute, value);
-//        pets = jsonUtils.updateJSONArray(pets, petJson, "pet_name", petName);
-//        personJson.put("pets", pets);
-//        fileUtils.writeToFile(personDatabase, jsonUtils.updateJSONArray(personList, personJson, "pets", oldPets).toJSONString());
-//        return Search("id", id);
     }
 
     @PostMapping("/api/add")
@@ -122,19 +112,17 @@ public class PersonService {
     public JSONArray removePerson(String firstName) {
         JSONArray personList = jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
         JSONObject personJson = jsonUtils.parseJsonArrayAndGetJsonObject(personList.toString(), "first_name", firstName);
-
-        //TODO: Can't update list and keep iterating over it
-
+        JSONArray updatedPersonList = new JSONArray();
         for (Object person : personList) {
             JSONObject json = (JSONObject) person;
-            if (Integer.parseInt(json.get("id").toString()) > Integer.parseInt(personJson.get("id").toString())) {
-                personList.remove(json);
+            if (Integer.parseInt(json.get("id").toString()) < Integer.parseInt(personJson.get("id").toString())) {
+                updatedPersonList.add(json);
+            } else if (Integer.parseInt(json.get("id").toString()) > Integer.parseInt(personJson.get("id").toString())) {
                 json.put("id", Integer.parseInt(json.get("id").toString()) - 1);
-                personList.add(json);
+                updatedPersonList.add(json);
             }
         }
-        personList.remove(personJson);
-        fileUtils.writeToFile(personDatabase, personList.toJSONString());
+        fileUtils.writeToFile(personDatabase, updatedPersonList.toJSONString());
         return jsonUtils.parseJSONArray(fileUtils.readFromFile(personDatabase));
     }
 
