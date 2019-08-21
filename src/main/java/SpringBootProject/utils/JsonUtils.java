@@ -38,7 +38,7 @@ public class JsonUtils {
         JSONArray returnArray = new JSONArray();
         JSONObject jsonObject = null;
         JSONArray jsonArray = parseJSONArray(text);
-        for (Object obj : jsonArray)){
+        for (Object obj : jsonArray) {
             jsonObject = (JSONObject) obj;
             for (Object k : jsonObject.keySet()) {
                 if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value))
@@ -89,16 +89,19 @@ public class JsonUtils {
     }
 
     public JSONObject parseJSONObjectAndUpdateKey(JSONObject jsonObject, String key, String value) {
-        for (Object k : jsonObject.keySet()) {
-            if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value)) {
-                jsonObject.put(key, value);
-            } else if (jsonObject.get(k) instanceof JSONArray) {
-                JSONArray innerArray = (JSONArray) jsonObject.get(k);
-                JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
-                innerJson.put(key, value);
-                innerArray = updateJSONArray(innerArray, innerJson, key, value);
-                jsonObject.put(k, innerArray);
-                return jsonObject;
+        if (jsonObject.keySet().contains(key)) {
+            jsonObject.put(key, value);
+            return jsonObject;
+        } else {
+            for (Object k : jsonObject.keySet()) {
+                if (jsonObject.get(k) instanceof JSONArray) {
+                    JSONArray innerArray = (JSONArray) jsonObject.get(k);
+                    JSONObject innerJson = parseJsonArrayAndGetJsonObject(innerArray.toString(), key, value);
+                    innerJson.put(key, value);
+                    innerArray = updateJSONArray(innerArray, innerJson, key, value);
+                    jsonObject.put(k, innerArray);
+                    return jsonObject;
+                }
             }
         }
         return null;
@@ -107,13 +110,13 @@ public class JsonUtils {
     public JSONObject parseJsonArrayAndGetJsonObject(String text, String key, String value) {
         JSONArray jsonArray = parseJSONArray(text);
         JSONObject jsonObject = null;
-                for (Object obj : jsonArray) {
-                    jsonObject = (JSONObject) obj;
-                    for (Object k : jsonObject.keySet()) {
-                        if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value))
-                            return jsonObject;
-                    }
-                }
+        for (Object obj : jsonArray) {
+            jsonObject = (JSONObject) obj;
+            for (Object k : jsonObject.keySet()) {
+                if (k.toString().equalsIgnoreCase(key) && jsonObject.get(k).toString().equalsIgnoreCase(value))
+                    return jsonObject;
+            }
+        }
         return jsonObject;
     }
 

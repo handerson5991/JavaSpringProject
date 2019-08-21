@@ -5,7 +5,6 @@ import SpringBootProject.dtos.Person;
 import SpringBootProject.dtos.Pet;
 import SpringBootProject.utils.FileUtils;
 import SpringBootProject.utils.JsonUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PersonService {

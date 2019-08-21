@@ -1,1 +1,1 @@
-{"pet_name":"Chico","animal":"dog","breed":"chihuahua","age":"2"}
+{"id":6,"first_name":"Hunter","last_name":"Anderson","age":"24","pets":[{"pet_name":"Zodi","animal":"cat","breed":"siamese","age":"1"},{"pet_name":"Jack","animal":"cat","breed":"tabby","age":"1"}],"cars":[{"year":"2018","make":"Toyota","model":"RAV4","color":"black"}]}
